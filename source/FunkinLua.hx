@@ -2877,6 +2877,7 @@ class FunkinLua {
 			return true;
 		}
 
+		#if LUA_ALLOWED		
 		var foldersToCheck:Array<String> = [Paths.mods('shaders/')];
 		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
 			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/shaders/'));
@@ -2913,6 +2914,7 @@ class FunkinLua {
 				}
 			}
 		}
+		#end
 		luaTrace('Missing shader $name .frag AND .vert files!', false, false, FlxColor.RED);
 		return false;
 	}
@@ -3117,6 +3119,8 @@ class FunkinLua {
 	}
 
 	// some fuckery fucks with linc_luajit
+
+	#if LUA_ALLOWED
 	function getResult(l:State, result:Int):Any {
 		var ret:Any = null;
 
@@ -3133,7 +3137,8 @@ class FunkinLua {
 		
 		return ret;
 	}
-
+	#end
+	
 	var lastCalledFunction:String = '';
 	public function call(func:String, args:Array<Dynamic>): Dynamic{
 		#if LUA_ALLOWED

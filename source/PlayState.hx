@@ -1421,6 +1421,7 @@ class PlayState extends MusicBeatState
 			return true;
 		}
 
+		#if LUA_ALLOWED
 		var foldersToCheck:Array<String> = [Paths.mods('shaders/')];
 		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
 			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/shaders/'));
@@ -1457,6 +1458,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 		}
+		#end
 		FlxG.log.warn('Missing shader $name .frag AND .vert files!');
 		return false;
 	}
