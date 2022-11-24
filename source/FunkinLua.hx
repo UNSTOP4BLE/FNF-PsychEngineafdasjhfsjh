@@ -37,7 +37,7 @@ import flixel.system.FlxAssets.FlxShader;
 import flixel.addons.display.FlxRuntimeShader;
 #end
 
-#if sys
+#if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;
 #end
@@ -2543,11 +2543,13 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "saveFile", function(path:String, content:String, ?absolute:Bool = false)
 		{
 			try {
+
+				#if MODS_ALLOWED
 				if(!absolute)
 					File.saveContent(Paths.mods(path), content);
 				else
 					File.saveContent(path, content);
-
+				#end
 				return true;
 			} catch (e:Dynamic) {
 				luaTrace("saveFile: Error trying to save " + path + ": " + e, false, false, FlxColor.RED);
@@ -2572,7 +2574,9 @@ class FunkinLua {
 				var lePath:String = Paths.getPath(path, TEXT);
 				if(Assets.exists(lePath))
 				{
-					FileSystem.deleteFile(lePath);
+					#if MODS_ALLOWED	
+						FileSystem.deleteFile(lePath);
+					#end
 					return true;
 				}
 			} catch (e:Dynamic) {
@@ -2739,7 +2743,7 @@ class FunkinLua {
 		
 		Lua_helper.add_callback(lua, "directoryFileList", function(folder:String) {
 			var list:Array<String> = [];
-			#if sys
+			#if MODS_ALLOWED
 			if(FileSystem.exists(folder)) {
 				for (folder in FileSystem.readDirectory(folder)) {
 					if (!list.contains(folder)) {
@@ -2878,7 +2882,12 @@ class FunkinLua {
 		}
 
 		#if LUA_ALLOWED		
-		var foldersToCheck:Array<String> = [Paths.mods('shaders/')];
+
+		var foldersToCheck:Array<String>;
+
+		#if MODS_ALLOWED		
+		foldersToCheck = [Paths.mods('shaders/')];
+
 		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
 			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/shaders/'));
 
@@ -2914,6 +2923,7 @@ class FunkinLua {
 				}
 			}
 		}
+		#end
 		#end
 		luaTrace('Missing shader $name .frag AND .vert files!', false, false, FlxColor.RED);
 		return false;

@@ -33,6 +33,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 {
 	public function new()
 	{
+		removeVirtualPad();
 		title = 'Graphics';
 		rpcTitle = 'Graphics Settings Menu'; //for Discord Rich Presence
 
@@ -75,6 +76,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		#end
 
 		super();
+		addVirtualPad(UP_DOWN, A_B);
 	}
 
 	function onChangeAntiAliasing()

@@ -45,7 +45,7 @@ import lime.media.AudioBuffer;
 import haxe.io.Bytes;
 import flash.geom.Rectangle;
 import flixel.util.FlxSort;
-#if sys
+#if MODS_ALLOWED
 import sys.io.File;
 import sys.FileSystem;
 import flash.media.Sound;
@@ -439,7 +439,7 @@ class ChartingState extends MusicBeatState
 
 			var songName:String = Paths.formatToSongPath(_song.song);
 			var file:String = Paths.json(songName + '/events');
-			#if sys
+			#if MODS_ALLOWED
 			if (#if MODS_ALLOWED FileSystem.exists(Paths.modsJson(songName + '/events')) || #end FileSystem.exists(file))
 			#else
 			if (OpenFlAssets.exists(file))
@@ -942,8 +942,7 @@ class ChartingState extends MusicBeatState
 		directories.push(Paths.mods(Paths.currentModDirectory + '/custom_notetypes/'));
 		for(mod in Paths.getGlobalMods())
 			directories.push(Paths.mods(mod + '/custom_notetypes/'));
-		#end
-
+		
 		for (i in 0...directories.length) {
 			var directory:String =  directories[i];
 			if(FileSystem.exists(directory)) {
@@ -962,7 +961,7 @@ class ChartingState extends MusicBeatState
 			}
 		}
 		#end
-
+		#end
 		for (i in 1...displayNameList.length) {
 			displayNameList[i] = i + '. ' + displayNameList[i];
 		}
@@ -1004,8 +1003,7 @@ class ChartingState extends MusicBeatState
 		directories.push(Paths.mods(Paths.currentModDirectory + '/custom_events/'));
 		for(mod in Paths.getGlobalMods())
 			directories.push(Paths.mods(mod + '/custom_events/'));
-		#end
-
+		
 		for (i in 0...directories.length) {
 			var directory:String =  directories[i];
 			if(FileSystem.exists(directory)) {
@@ -1023,6 +1021,7 @@ class ChartingState extends MusicBeatState
 		}
 		eventPushedMap.clear();
 		eventPushedMap = null;
+		#end
 		#end
 
 		descText = new FlxText(20, 200, 0, eventStuff[0][0]);

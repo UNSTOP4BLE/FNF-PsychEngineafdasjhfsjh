@@ -65,7 +65,7 @@ import flixel.addons.display.FlxRuntimeShader;
 import openfl.filters.ShaderFilter;
 #end
 
-#if sys
+#if MODS_ALLOWED
 import sys.FileSystem;
 import sys.io.File;
 #end
@@ -876,7 +876,6 @@ class PlayState extends MusicBeatState
 
 		for(mod in Paths.getGlobalMods())
 			foldersToCheck.insert(0, Paths.mods(mod + '/scripts/'));
-		#end
 
 		for (folder in foldersToCheck)
 		{
@@ -892,6 +891,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 		}
+		#end
 		#end
 
 
@@ -1229,6 +1229,8 @@ class PlayState extends MusicBeatState
 		timeTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
 
+		
+		addMobileControls();
 		// if (SONG.song == 'South')
 		// FlxG.camera.alpha = 0.7;
 		// UI_camera.zoom = 1;
@@ -1248,7 +1250,6 @@ class PlayState extends MusicBeatState
 
 		for(mod in Paths.getGlobalMods())
 			foldersToCheck.insert(0, Paths.mods(mod + '/data/' + Paths.formatToSongPath(SONG.song) + '/' ));// using push instead of insert because these should run after everything else
-		#end
 
 		for (folder in foldersToCheck)
 		{
@@ -1265,7 +1266,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 		#end
-
+		#end
 		var daSong:String = Paths.formatToSongPath(curSong);
 		if (isStoryMode && !seenCutscene)
 		{
@@ -1385,8 +1386,8 @@ class PlayState extends MusicBeatState
 					Paths.music(key);
 			}
 		}
+
 		Paths.clearUnusedMemory();
-		
 		CustomFadeTransition.nextCamera = camOther;
 	}
 
@@ -1422,6 +1423,9 @@ class PlayState extends MusicBeatState
 		}
 
 		#if LUA_ALLOWED
+
+		#if MODS_ALLOWED
+
 		var foldersToCheck:Array<String> = [Paths.mods('shaders/')];
 		if(Paths.currentModDirectory != null && Paths.currentModDirectory.length > 0)
 			foldersToCheck.insert(0, Paths.mods(Paths.currentModDirectory + '/shaders/'));
@@ -1459,8 +1463,10 @@ class PlayState extends MusicBeatState
 			}
 		}
 		#end
+		#end
 		FlxG.log.warn('Missing shader $name .frag AND .vert files!');
 		return false;
+
 	}
 	#end
 
@@ -1603,7 +1609,7 @@ class PlayState extends MusicBeatState
 		inCutscene = true;
 
 		var filepath:String = Paths.video(name);
-		#if sys
+		#if MODS_ALLOWED
 		if(!FileSystem.exists(filepath))
 		#else
 		if(!OpenFlAssets.exists(filepath))
@@ -2083,6 +2089,8 @@ class PlayState extends MusicBeatState
 
 	public function startCountdown():Void
 	{
+		if (mobileControls != null)
+			mobileControls.visible = true;
 		if(startedCountdown) {
 			callOnLuas('onStartCountdown', []);
 			return;
@@ -3883,6 +3891,7 @@ class PlayState extends MusicBeatState
 	public var transitioning = false;
 	public function endSong():Void
 	{
+		mobileControls.visible = false;
 		//Should kill you if you tried to cheat
 		if(!startingSong) {
 			notes.forEach(function(daNote:Note) {

@@ -87,6 +87,8 @@ class OptionsState extends MusicBeatState
 		ClientPrefs.saveSettings();
 
 		super.create();
+		addVirtualPad(UP_DOWN, A_B);
+		addPadCamera();
 	}
 
 	override function closeSubState() {
