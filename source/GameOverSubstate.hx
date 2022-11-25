@@ -71,7 +71,7 @@ class GameOverSubstate extends MusicBeatSubstate
 		add(camFollowPos);
 
 		addVirtualPad(NONE, A_B);
-		addPadCamera();
+		addVirtualPadCamera();
 	}
 
 	var isFollowingAlready:Bool = false;

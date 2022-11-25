@@ -88,7 +88,7 @@ class OptionsState extends MusicBeatState
 
 		super.create();
 		addVirtualPad(UP_DOWN, A_B);
-		addPadCamera();
+		addVirtualPadCamera();
 	}
 
 	override function closeSubState() {

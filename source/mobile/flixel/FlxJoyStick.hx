@@ -2,15 +2,15 @@ package mobile.flixel;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.graphics.FlxGraphic;
+import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.touch.FlxTouch;
 import flixel.math.FlxAngle;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
-import flixel.graphics.FlxGraphic;
 import flixel.util.FlxDestroyUtil;
-import flixel.graphics.frames.FlxAtlasFrames;
 import openfl.utils.Assets;
 
 /**
@@ -133,17 +133,14 @@ class FlxJoyStick extends FlxSpriteGroup
 	 */
 	function createBase():Void
 	{
-		base = new FlxSprite(0,
-			0).loadGraphic(FlxGraphic.fromFrame(FlxAtlasFrames.fromSparrow(Assets.getBitmapData('assets/mobile/joystick.png'),
-				Assets.getText('assets/mobile/joystick.xml'))
-				.getByName('base')));
-		base.resetSizeFromFrame();
+		base = new FlxSprite(0, 0);
+		base.loadGraphic(Assets.getBitmapData('assets/mobile/joystick/base.png'));
 		base.x += -base.width * 0.5;
 		base.y += -base.height * 0.5;
 		base.scrollFactor.set();
 		base.solid = false;
 		base.immovable = true;
-		base.alpha = MobileControls.getOpacity();
+		base.alpha = 0.6;
 		#if FLX_DEBUG
 		base.ignoreDrawDebug = true;
 		#end
@@ -155,17 +152,14 @@ class FlxJoyStick extends FlxSpriteGroup
 	 */
 	function createThumb():Void
 	{
-		thumb = new FlxSprite(0,
-			0).loadGraphic(FlxGraphic.fromFrame(FlxAtlasFrames.fromSparrow(Assets.getBitmapData('assets/mobile/joystick.png'),
-				Assets.getText('assets/mobile/joystick.xml'))
-				.getByName('thumb')));
-		thumb.resetSizeFromFrame();
+		thumb = new FlxSprite(0, 0);
+		thumb.loadGraphic(Assets.getBitmapData('assets/mobile/joystick/thumb.png'));
 		thumb.x += -thumb.width * 0.5;
 		thumb.y += -thumb.height * 0.5;
 		thumb.scrollFactor.set();
 		thumb.solid = false;
 		thumb.immovable = true;
-		thumb.alpha = MobileControls.getOpacity();
+		thumb.alpha = 0.6;
 		#if FLX_DEBUG
 		thumb.ignoreDrawDebug = true;
 		#end
